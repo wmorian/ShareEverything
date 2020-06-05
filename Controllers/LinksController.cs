@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
+using ShareEverything.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace ShareEverything.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class LinksController : ControllerBase
     {
         [HttpGet("tags")]
@@ -38,23 +38,11 @@ namespace ShareEverything.Controllers
             var path = "/Users/wahid/projects/shareEverything/code/ShareEverything/DB/Links.tsv";
             var file = new System.IO.FileStream(path, FileMode.Append);
             var line = link.ToString();
-            await file.WriteAsync(System.Text.Encoding.UTF8.GetBytes(line));
+            await file.WriteAsync(System.Text.Encoding.UTF8.GetBytes(line + Environment.NewLine));
             await file.FlushAsync();
             await file.DisposeAsync();
 
             return this.Ok();
-        }
-    }
-
-    public class SharedLink
-    {
-        public string Url { get; set; }
-
-        public ICollection<string> Tags { get; set; } = new Collection<string>();
-
-        public override string ToString()
-        {
-            return $"{this.Url}\t{string.Join('\t', this.Tags)}"; 
         }
     }
 }
