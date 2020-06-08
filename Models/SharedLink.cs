@@ -6,11 +6,13 @@ namespace ShareEverything.Models
 {
     public class SharedLink
     {
+        public int Id { get; set; }
+
         [Required]
         public string Url { get; set; }
 
         [Required]
-        public ICollection<string> Tags { get; set; } = new Collection<string>();
+        public ICollection<Tag> Tags { get; set; } = new Collection<Tag>();
 
         public override string ToString()
         {

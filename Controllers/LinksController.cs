@@ -12,23 +12,6 @@ namespace ShareEverything.Controllers
     [Route("api/[controller]")]
     public class LinksController : ControllerBase
     {
-        [HttpGet("tags")]
-        public async Task<IActionResult> GetTags()
-        {
-            var db = "/Users/wahid/projects/shareEverything/code/ShareEverything/DB/Links.tsv";
-            var lines = await System.IO.File.ReadAllLinesAsync(db);
-
-            var tags = new HashSet<string>();
-            foreach (var line in lines)
-            {
-                var tagsInLine = line.Split('\t').Skip(1);
-                foreach (var t in tagsInLine)
-                    tags.Add(t);
-            }
-            tags.Remove(""); //there can be empty columns
-            return this.Ok(tags);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SharedLink link)
         {
