@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace ShareEverything.Models
@@ -9,8 +10,6 @@ namespace ShareEverything.Models
         [Required]
         public string Name { get; set; }
 
-        public int SharedLinkId { get; set; }
-
-        public SharedLink SharedLink { get; set; }
+        public ICollection<SharedLinkTag> SharedLinkTags { get; }
     }
 }

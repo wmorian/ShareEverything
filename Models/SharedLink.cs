@@ -11,12 +11,6 @@ namespace ShareEverything.Models
         [Required]
         public string Url { get; set; }
 
-        [Required]
-        public ICollection<Tag> Tags { get; set; } = new Collection<Tag>();
-
-        public override string ToString()
-        {
-            return $"{this.Url}\t{string.Join('\t', this.Tags)}"; 
-        }
+        public ICollection<SharedLinkTag> SharedLinkTags { get; }
     }
 }
