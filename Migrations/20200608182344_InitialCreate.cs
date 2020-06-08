@@ -25,33 +25,53 @@ namespace ShareEverything.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: false),
-                    SharedLinkId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tags", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SharedLinkTag",
+                columns: table => new
+                {
+                    SharedLinkId = table.Column<int>(nullable: false),
+                    TagId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SharedLinkTag", x => new { x.SharedLinkId, x.TagId });
                     table.ForeignKey(
-                        name: "FK_Tags_SharedLinks_SharedLinkId",
+                        name: "FK_SharedLinkTag_SharedLinks_SharedLinkId",
                         column: x => x.SharedLinkId,
                         principalTable: "SharedLinks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SharedLinkTag_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tags_SharedLinkId",
-                table: "Tags",
-                column: "SharedLinkId");
+                name: "IX_SharedLinkTag_TagId",
+                table: "SharedLinkTag",
+                column: "TagId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Tags");
+                name: "SharedLinkTag");
 
             migrationBuilder.DropTable(
                 name: "SharedLinks");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
         }
     }
 }

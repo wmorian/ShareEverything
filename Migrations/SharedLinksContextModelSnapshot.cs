@@ -30,6 +30,21 @@ namespace ShareEverything.Migrations
                     b.ToTable("SharedLinks");
                 });
 
+            modelBuilder.Entity("ShareEverything.Models.SharedLinkTag", b =>
+                {
+                    b.Property<int>("SharedLinkId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("SharedLinkId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("SharedLinkTag");
+                });
+
             modelBuilder.Entity("ShareEverything.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -40,21 +55,22 @@ namespace ShareEverything.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SharedLinkId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SharedLinkId");
 
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("ShareEverything.Models.Tag", b =>
+            modelBuilder.Entity("ShareEverything.Models.SharedLinkTag", b =>
                 {
                     b.HasOne("ShareEverything.Models.SharedLink", "SharedLink")
-                        .WithMany("Tags")
+                        .WithMany("SharedLinkTags")
                         .HasForeignKey("SharedLinkId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ShareEverything.Models.Tag", "Tag")
+                        .WithMany("SharedLinkTags")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

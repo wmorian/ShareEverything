@@ -12,5 +12,11 @@ namespace ShareEverything.Persistence
         public DbSet<SharedLink> SharedLinks { get; set; }
 
         public DbSet<Tag> Tags { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<SharedLinkTag>()
+                .HasKey(slt => new { slt.SharedLinkId, slt.TagId });
+        }
     }
 }
